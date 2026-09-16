@@ -5,8 +5,23 @@
     <link rel="icon" type="image/png" href="https://miaoda-conversation-file.cdn.bcebos.com/user-9wu1vvr6kvsw/app-cpr1anu1ecjl/20260704/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>易安小站 · 管理后台</title>
-    <script type="module" crossorigin src="/admin/assets/index-B4-l6_YM.js"></script>
-    <link rel="stylesheet" crossorigin href="/admin/assets/index-CrZGY5Gx.css">
+    <script>
+      (function () {
+        var key = 'yian-admin-spa-redirect';
+        var saved = '';
+        try {
+          saved = sessionStorage.getItem(key) || '';
+          sessionStorage.removeItem(key);
+        } catch (e) {}
+        if (saved.indexOf('/admin') !== 0) return;
+        var next = saved === '/admin' ? '/admin/' : saved;
+        if (next !== location.pathname + location.search + location.hash) {
+          history.replaceState(null, '', next);
+        }
+      })();
+    </script>
+    <script type="module" crossorigin src="/admin/static/index-D5yW0UNO.js"></script>
+    <link rel="stylesheet" crossorigin href="/admin/static/index-BrW7gZI0.css">
   </head>
   <body>
     <div id="root"></div>
