@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>七牛云 CDN + acme.sh 自动续签 SSL 证书配置指南 - 易安小站</title>
+    <link rel="icon" type="image/png" href="https://miaoda-conversation-file.cdn.bcebos.com/user-9wu1vvr6kvsw/app-cpr1anu1ecjl/20260704/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        var path = location.pathname;
+        if (path !== '/admin' && path.indexOf('/admin/') !== 0) return;
+        try {
+          sessionStorage.setItem(
+            'yian-admin-spa-redirect',
+            path + location.search + location.hash,
+          );
+        } catch (e) {}
+        location.replace('/admin/');
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BFQJvrIW.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BdtT2n68.css">
+  <!--seo-->
+<meta name="description" content="小程序项目图片资源越来越大，用户上传动辄 10+ MB，服务器带宽压力山大。决定接入七牛云 CDN 实现直传，顺便把 SSL 证书自动续签也配好。本文记录完整配置流程，方便后续项目复用。" />
+<meta name="keywords" content="技术文章,博客,易安小站" />
+<link rel="canonical" href="https://hub.yianso.cn/blog/七牛云-cdn-acme-sh-自动续签-ssl-证书配置指南-1789034965563" />
+<meta property="og:title" content="七牛云 CDN + acme.sh 自动续签 SSL 证书配置指南 - 易安小站" />
+<meta property="og:description" content="小程序项目图片资源越来越大，用户上传动辄 10+ MB，服务器带宽压力山大。决定接入七牛云 CDN 实现直传，顺便把 SSL 证书自动续签也配好。本文记录完整配置流程，方便后续项目复用。" />
+<meta property="og:url" content="https://hub.yianso.cn/blog/七牛云-cdn-acme-sh-自动续签-ssl-证书配置指南-1789034965563" />
+<script type="application/ld+json" data-seo="1">[{"@context":"https://schema.org","@type":"Article","url":"https://hub.yianso.cn/blog/七牛云-cdn-acme-sh-自动续签-ssl-证书配置指南-1789034965563","description":"小程序项目图片资源越来越大，用户上传动辄 10+ MB，服务器带宽压力山大。决定接入七牛云 CDN 实现直传，顺便把 SSL 证书自动续签也配好。本文记录完整配置流程，方便后续项目复用。","headline":"七牛云 CDN + acme.sh 自动续签 SSL 证书配置指南 - 易安小站","mainEntityOfPage":"https://hub.yianso.cn/blog/七牛云-cdn-acme-sh-自动续签-ssl-证书配置指南-1789034965563","author":{"@type":"Person","name":"admin"},"datePublished":"2026-09-10T10:09:25.626835+00:00","dateModified":"2026-09-28T08:08:03.72287+00:00","publisher":{"@type":"Organization","name":"易安小站"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://hub.yianso.cn/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://hub.yianso.cn/blog"},{"@type":"ListItem","position":3,"name":"七牛云 CDN + acme.sh 自动续签 SSL 证书配置指南","item":"https://hub.yianso.cn/blog/七牛云-cdn-acme-sh-自动续签-ssl-证书配置指南-1789034965563"}]}]</script>
+<!--/seo-->
+</head>
+  <body>
+    <main id="seo-snapshot"><h1>七牛云 CDN + acme.sh 自动续签 SSL 证书配置指南</h1><p>小程序项目图片资源越来越大，用户上传动辄 10+ MB，服务器带宽压力山大。决定接入七牛云 CDN 实现直传，顺便把 SSL 证书自动续签也配好。本文记录完整配置流程，方便后续项目复用。</p><div><h1>七牛云 CDN + acme.sh 自动续签 SSL 证书配置指南</h1>
+<p>小程序项目图片资源越来越大，用户上传动辄 10+ MB，服务器带宽压力山大。决定接入七牛云 CDN 实现直传，顺便把 SSL 证书自动续签也配好。本文记录完整配置流程，方便后续项目复用。</p>
+<hr>
+<h2>为什么选七牛云</h2>
+<p>对比主流云存储方案后，七牛云对个人项目最友好：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>对比项</th><th>七牛云</th><th>阿里云 OSS</th><th>腾讯云 COS</th></tr></thead><tbody><tr><td>上传流量</td><td>免费无上限</td><td>免费</td><td>免费</td></tr><tr><td>存储空间</td><td>10GB/月免费</td><td>按量付费</td><td>新用户 50GB/年</td></tr><tr><td>CDN 回源流量</td><td>10GB/月免费</td><td>0.15 元/GB</td><td>0.15 元/GB</td></tr><tr><td>个人项目成本</td><td><strong>约 ¥0/月</strong></td><td>几块钱/月</td><td>首年免费</td></tr></tbody></table>
+<p>七牛的免费额度完全够用，性价比最高。</p>
+<hr>
+<h2>一、创建七牛云存储空间</h2>
+<ol>
+<li>登录 <a href="https://portal.qiniu.com/">七牛云控制台</a>，进入 <strong>对象存储 Kodo</strong></li>
+<li>点击 <strong>新建空间</strong>，配置如下：</li>
+</ol>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>配置项</th><th>值</th></tr></thead><tbody><tr><td>存储区域</td><td>华南-广东（ECS 在深圳，就近选择）</td></tr><tr><td>访问控制</td><td>公开（公有读私有写，URL 可直接访问）</td></tr></tbody></table>
+<p>创建成功后记录 <strong>空间名称</strong>，后续配置会用到。</p>
+<hr>
+<h2>二、配置 CDN 加速域名</h2>
+<p>进入 <strong>CDN → 域名管理 → 添加域名</strong>：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>配置项</th><th>值</th></tr></thead><tbody><tr><td>加速域名</td><td><code>cdn.yianso.cn</code>（已备案域名）</td></tr><tr><td>通信协议</td><td>HTTPS</td></tr><tr><td>覆盖范围</td><td>中国大陆</td></tr><tr><td>使用场景</td><td>图片小文件</td></tr><tr><td>源站配置</td><td>七牛云存储 → 选择刚创建的空间</td></tr><tr><td>缓存时间</td><td>30 天</td></tr><tr><td>缓存参数</td><td>忽略所有参数</td></tr></tbody></table>
+<p>提交后获取七牛分配的 <strong>CNAME 值</strong>（形如 <code>cdn-yianso-cn-idvru26.qiniudns.com</code>），下一步使用。</p>
+<hr>
+<h2>三、DNS 添加 CNAME 记录</h2>
+<p>域名在阿里云管理，前往 <strong>阿里云控制台 → 域名 → 解析设置</strong>，添加记录：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>记录类型</th><th>主机记录</th><th>记录值</th></tr></thead><tbody><tr><td>CNAME</td><td><code>cdn</code></td><td>粘贴七牛给的 CNAME 值</td></tr></tbody></table>
+<p>等待几分钟生效，在七牛点击 <strong>刷新检测</strong>，状态变为「已配置」即可。</p>
+<hr>
+<h2>四、服务器安装 acme.sh 并签发证书</h2>
+<p>SSH 登录到阿里云 ECS：</p>
+<pre><code class="language-bash"># 1. 安装 acme.sh
+curl https://get.acme.sh | sh
+
+# 重新加载环境变量
+source ~/.bashrc
+</code></pre>
+<p>安装时会自动添加定时任务，每天检查证书状态，无需额外配置。</p>
+<h3>注册账户</h3>
+<pre><code class="language-bash"># 使用真实邮箱注册
+~/.acme.sh/acme.sh --register-account -m your@email.com
+</code></pre>
+<h3>配置阿里云 DNS API</h3>
+<p>签发证书需要操作阿里云 DNS（添加 TXT 验证记录），先在 <a href="https://ram.console.aliyun.com/">阿里云 RAM</a> 获取 AccessKey：</p>
+<pre><code class="language-bash"># 设置阿里云 DNS API 密钥（用于自动验证域名）
+export Ali_Key="LTAI5t***************"
+export Ali_Secret="KDXj******************************"
+
+# 签发证书
+~/.acme.sh/acme.sh --issue --dns dns_ali -d cdn.yianso.cn
+</code></pre>
+<blockquote>
+<p>⚠️ <strong>安全建议</strong>：在 RAM 访问控制创建子用户，仅授予 <code>AliyunDNSFullAccess</code> 权限，不要使用主账号密钥。</p>
+</blockquote>
+<p>看到 <code>Cert success.</code> 和 <code>Your cert is in: ...</code> 即签发成功。</p>
+<hr>
+<h2>五、配置自动部署到七牛 CDN</h2>
+<h3>设置七牛 API 密钥</h3>
+<p>在 <a href="https://portal.qiniu.com/user/key">七牛密钥管理</a> 获取 AccessKey 和 SecretKey：</p>
+<pre><code class="language-bash">export QINIU_AK="tNCT7v*********************************"
+export QINIU_SK="8Vis*********************************"
+</code></pre>
+<h3>部署证书到七牛</h3>
+<pre><code class="language-bash">~/.acme.sh/acme.sh --deploy -d cdn.yianso.cn --deploy-hook qiniu
+</code></pre>
+<p>看到 <code>Domain cdn.yianso.cn certificate has been deployed successfully</code> 即部署成功。</p>
+<blockquote>
+<p>💡 <strong>提示</strong>：如果提示 <code>400302</code> 错误，需先在七牛 CDN 域名管理手动开启 HTTPS（选择已有证书），部署后再执行一次即可。</p>
+</blockquote>
+<h3>关键一步：设置续期后自动部署</h3>
+<p>默认续期只更新本地证书文件，<strong>不会自动部署到七牛</strong>。需要单独设置 <code>renew-hook</code>：</p>
+<pre><code class="language-bash">~/.acme.sh/acme.sh --set-renew-hook \
+  "~/.acme.sh/acme.sh --deploy -d cdn.yianso.cn --deploy-hook qiniu" \
+  -d cdn.yianso.cn
+</code></pre>
+<p>验证配置：</p>
+<pre><code class="language-bash">~/.acme.sh/acme.sh --info -d cdn.yianso.cn | grep renew_hook
+</code></pre>
+<p>输出中包含 <code>renew_hook</code> 指向 deploy 命令即配置正确。</p>
+<h3>验证自动续期</h3>
+<pre><code class="language-bash">crontab -l | grep acme
+</code></pre>
+<p>会看到类似定时任务：</p>
+<pre><code class="language-bash">0 0 * * * "/home/myecs/.acme.sh"/acme.sh --cron --home "/home/myecs/.acme.sh" > /dev/null
+</code></pre>
+<p>acme.sh 每天自动检查，证书到期前自动续签 → 触发 <code>renew-hook</code> → 自动部署到七牛 CDN，<strong>全程无人值守</strong>。</p>
+<hr>
+<h2>最终效果</h2>
+<p>✅ 小程序图片直传七牛，不经过自己服务器<br>
+✅ HTTPS 自动配置完成<br>
+✅ 证书到期自动续签、自动部署<br>
+✅ <strong>目前费用：¥0</strong></p>
+<hr>
+<h2>踩坑记录</h2>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>问题</th><th>解决方案</th></tr></thead><tbody><tr><td>CNAME 生效慢</td><td>等待几分钟后在七牛多刷新几次检测</td></tr><tr><td>部署报 <code>400302</code> 错误</td><td>先在七牛 CDN 域名管理手动开启 HTTPS，再执行 deploy</td></tr><tr><td>acme.sh 默认用 ZeroSSL</td><td>注册邮箱步骤不能跳过</td></tr><tr><td>用户可通过 HTTP 访问</td><td>在七牛 CDN 域名管理开启 <strong>强制 HTTPS</strong></td></tr><tr><td>续期后未自动部署</td><td>必须单独执行 <code>--set-renew-hook</code> 设置自动部署</td></tr></tbody></table>
+<hr>
+<h2>总结</h2>
+<p>这套流程配置完成后，其他项目直接复用即可。核心要点：</p>
+<ol>
+<li><strong>七牛云免费额度</strong>对个人项目足够用</li>
+<li><strong>acme.sh + DNS 验证</strong>实现证书自动签发</li>
+<li><strong>renew-hook</strong> 是自动部署的关键，别忘了设置</li>
+<li>全程自动化，后续零维护成本</li>
+</ol></div></main>
+<script>(function(){var p=location.pathname.replace(/\/+$/,"")||"/";if(p!=="/blog/%E4%B8%83%E7%89%9B%E4%BA%91-cdn-acme-sh-%E8%87%AA%E5%8A%A8%E7%BB%AD%E7%AD%BE-ssl-%E8%AF%81%E4%B9%A6%E9%85%8D%E7%BD%AE%E6%8C%87%E5%8D%97-1789034965563"){var n=document.getElementById("seo-snapshot");if(n)n.remove();}})();</script>
+<div id="root"></div>
+  </body>
+</html>

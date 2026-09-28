@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>cursor省tokens的一些方法 - 易安小站</title>
+    <link rel="icon" type="image/png" href="https://miaoda-conversation-file.cdn.bcebos.com/user-9wu1vvr6kvsw/app-cpr1anu1ecjl/20260704/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        var path = location.pathname;
+        if (path !== '/admin' && path.indexOf('/admin/') !== 0) return;
+        try {
+          sessionStorage.setItem(
+            'yian-admin-spa-redirect',
+            path + location.search + location.hash,
+          );
+        } catch (e) {}
+        location.replace('/admin/');
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BFQJvrIW.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BdtT2n68.css">
+  <!--seo-->
+<meta name="description" content="精选技术课程，从入门到精通" />
+<meta name="keywords" content="AI/机器学习,课程,教程,技术课程,易安小站" />
+<link rel="canonical" href="https://hub.yianso.cn/tutorials/cursor省tokens的一些方法-1789627079288" />
+<meta property="og:title" content="cursor省tokens的一些方法 - 易安小站" />
+<meta property="og:description" content="精选技术课程，从入门到精通" />
+<meta property="og:url" content="https://hub.yianso.cn/tutorials/cursor省tokens的一些方法-1789627079288" />
+<meta property="og:image" content="https://pic2.zhimg.com/v2-df60fc8830c0adfcd3a9f4222fb99247_1440w.jpg" />
+<script type="application/ld+json" data-seo="1">[{"@context":"https://schema.org","@type":"Course","url":"https://hub.yianso.cn/tutorials/cursor省tokens的一些方法-1789627079288","description":"精选技术课程，从入门到精通","name":"cursor省tokens的一些方法 - 易安小站","image":"https://pic2.zhimg.com/v2-df60fc8830c0adfcd3a9f4222fb99247_1440w.jpg","author":{"@type":"Person","name":"admin"},"datePublished":"2026-09-17T06:37:59.384145+00:00","dateModified":"2026-09-17T06:38:15.932299+00:00","publisher":{"@type":"Organization","name":"易安小站"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://hub.yianso.cn/"},{"@type":"ListItem","position":2,"name":"课程库","item":"https://hub.yianso.cn/tutorials"},{"@type":"ListItem","position":3,"name":"cursor省tokens的一些方法","item":"https://hub.yianso.cn/tutorials/cursor省tokens的一些方法-1789627079288"}]}]</script>
+<!--/seo-->
+</head>
+  <body>
+    <main id="seo-snapshot"><h1>cursor省tokens的一些方法</h1><div><h2>第一部分：立即见效的设置优化</h2>
+<h3>1. 配置上下文窗口限制</h3>
+<p><strong>预期节省：40-50% token</strong></p>
+<h3>核心设置</h3>
+<p>打开 Cursor Settings (<code>Cmd/Ctrl + ,</code>)，调整以下参数：</p>
+<pre><code class="language-text">{
+  "cursor.contextLength": 4000,      // 从默认 8000 减半
+  "cursor.maxTokens": 1000,          // 限制回复长度
+  "cursor.longContextMode": false     // 非必要不开启长上下文
+}
+</code></pre>
+<h3>为什么有效</h3>
+<p>Cursor 会遵守这些限制来构建上下文。更小的窗口 = 更少的 token/请求，同时强迫 Cursor 只选择最相关的上下文。</p>
+<h3>什么时候需要恢复</h3>
+<ul>
+<li>跨文件调试时</li>
+<li>大规模重构时</li>
+<li>学习不熟悉的代码库时</li>
+</ul>
+<blockquote>
+<p>💡 <strong>技巧</strong>：可以根据任务类型动态调整，简单任务用 4000，复杂任务临时调到 8000。</p>
+</blockquote>
+<h3>2. 优化 .cursorignore 和索引</h3>
+<p><strong>预期节省：减少索引文件从</strong>  <strong>~25,000 到</strong>  <strong>~400</strong></p>
+<h3>创建 .cursorignore</h3>
+<p>在项目根目录创建 <code>.cursorignore</code> 文件，排除不需要 AI 访问的文件：</p>
+<pre><code class="language-text"># 依赖
+node_modules/
+vendor/
+venv/
+.venv/
+packages/
+
+# 构建产物
+dist/
+build/
+.next/
+out/
+__pycache__/
+*.pyc
+
+# 锁文件
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+poetry.lock
+Pipfile.lock
+
+# 媒体和二进制文件
+*.png
+*.jpg
+*.gif
+*.svg
+*.ico
+*.woff
+*.woff2
+*.ttf
+*.mp4
+*.pdf
+
+# 生成的代码
+*.generated.*
+*.min.js
+*.min.css
+
+# 敏感文件
+.env
+.env.*
+credentials.json
+*.key
+*.pem
+
+# IDE 和系统
+.git/
+.idea/
+.vscode/
+*.log
+</code></pre>
+<h3>创建 .cursorindexingignore</h3>
+<p>比 <code>.cursorignore</code> 更柔和——不索引但仍允许手动 @引用：</p>
+<pre><code class="language-text"># 不自动索引，但可以手动引用
+docs/
+tests/fixtures/
+migrations/
+</code></pre>
+<blockquote>
+<p>⚡ <code>.cursorignore</code> 是<strong>硬排除</strong>（完全不可访问），<code>.cursorindexingignore</code> 是<strong>软排除</strong>（不自动索引但可手动引用）。</p>
+</blockquote>
+<h3>3. 审计和优化 Cursor Rules</h3>
+<p><strong>预期节省：每次请求减少 500-3,000 tokens</strong></p>
+<h3>步骤 1：审计当前规则</h3>
+<p>在 Cursor 的 Ask Mode 中运行以下 prompt：</p>
+<pre><code class="language-text">读取 @.cursor/rules/ 中的所有文件，估算每条规则的 token 数量。
+按大小降序排列。找出哪些规则设置了 alwaysApply: true，
+计算 always-apply 规则的总 token 成本。
+建议哪些规则可以从 alwaysApply 改为 glob-scoped 或 agent-decided。
+</code></pre>
+<h3>步骤 2：优化规则类型</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>规则内容</th><th>推荐类型</th><th>原因</th></tr></thead><tbody><tr><td>项目总览（&#x3C;50行）</td><td>alwaysApply</td><td>频繁需要，且体积小</td></tr><tr><td>代码风格规范</td><td>glob-scoped (*.ts, *.tsx)</td><td>只在编辑对应文件时需要</td></tr><tr><td>API 约定</td><td>glob-scoped (src/api/**)</td><td>只在 API 目录下需要</td></tr><tr><td>功能实现指南</td><td>agent-decided</td><td>让 Agent 判断是否相关</td></tr><tr><td>示例代码模板</td><td>manual</td><td>完全按需引用</td></tr></tbody></table>
+<h3>步骤 3：引用而不是内联</h3>
+<pre><code class="language-text"># ❌ 差的做法：内联整个示例（浪费 token）
+创建 API 路由时，遵循以下模式：
+[200 行示例代码]
+
+# ✅ 好的做法：引用文件（只在需要时加载）
+创建 API 路由时，遵循 @src/routes/users.ts 中的模式。
+</code></pre>
+<blockquote>
+<p>💡 <strong>上下文指示器</strong>：Cursor 输入框有个上下文指示条，悬停可以看到当前激活的规则。</p>
+</blockquote>
+<h3>4. 关闭不必要的上下文源</h3>
+<h3>关键设置</h3>
+<pre><code class="language-text">{
+  "cursor.includeRecentEdits": false,    // 不发送编辑历史
+  "cursor.includeOpenTabs": false,       // 只关注当前文件
+  "cursor.codebaseIndexing": "selective" // 选择性索引
+}
+</code></pre>
+<h3>效果</h3>
+<ul>
+<li>关闭 <code>includeRecentEdits</code>：避免发送你的编辑历史，减少每次请求约 500-2,000 tokens</li>
+<li>关闭 <code>includeOpenTabs</code>：避免发送所有打开标签页的内容，减少 3,000-5,000 tokens/标签页</li>
+<li>选择性索引：避免对整个代码库建立向量索引，RAG 检索更精准</li>
+</ul>
+<h3>什么时候需要重新开启</h3>
+<ul>
+<li><code>includeOpenTabs</code>：多文件编辑时临时开启</li>
+<li><code>includeRecentEdits</code>：debug 需要上下文时临时开启</li>
+</ul>
+<h3>配合 .cursorrules 的选择性索引</h3>
+<pre><code class="language-text"># 只索引核心目录
+@context include src/core
+@context include src/utils
+
+# 排除其他
+@context exclude node_modules
+@context exclude dist
+@context exclude .next
+</code></pre>
+<hr>
+<h2>第二部分：交互模式选择策略</h2>
+<hr>
+<h3>5. 选择正确的交互模式</h3>
+<p><strong>预期节省：50-75% tokens/session</strong></p>
+<h3>各模式成本与适用场景</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>模式</th><th>Token 消耗</th><th>适用场景</th><th>不适用场景</th></tr></thead><tbody><tr><td>Tab (Autocomplete)</td><td>500-2,000</td><td>简单代码补全、变量名、函数签名</td><td>复杂逻辑</td></tr><tr><td>Cmd+K (Inline Edit)</td><td>1,000-3,000</td><td>单函数编辑、添加 try-catch、类型标注</td><td>多文件修改</td></tr><tr><td>Ask Mode</td><td>4,000-8,000</td><td>代码问答、解释代码、方案讨论</td><td>需要修改代码时</td></tr><tr><td>Agent Mode</td><td>10,000-100,000+</td><td>多文件重构、新功能开发、复杂 debug</td><td>简单问题</td></tr><tr><td>Background Agent</td><td>极高 (MAX only)</td><td>独立完整任务、耗时操作</td><td>需要交互反馈时</td></tr></tbody></table>
+<h3>决策流程图</h3>
+<pre><code class="language-text">你的任务是什么？
+    |
+    ├─ 补全一行代码 → Tab Autocomplete (最省)
+    |
+    ├─ 修改一个函数 → Cmd+K Inline Edit
+    |
+    ├─ 问一个问题/理解代码 → Ask Mode
+    |
+    ├─ 修改 1-3 个文件 → Agent Mode (谨慎提供上下文)
+    |
+    ├─ 大规模重构/新功能 → Agent Mode (先 Plan 再 Agent)
+    |
+    └─ 独立完整任务 → Background Agent (注意成本)
+</code></pre>
+<h3>关键原则</h3>
+<ul>
+<li><strong>能用 Tab 解决的不用 Cmd+K</strong></li>
+<li><strong>能用 Cmd+K 解决的不用 Chat</strong></li>
+<li><strong>能用 Ask Mode 的不用 Agent Mode</strong></li>
+<li>Ask Mode 使用代码库索引检索，比 Agent Mode 逐文件读取高效得多</li>
+</ul>
+<h3>6. 智能模型路由策略</h3>
+<p><strong>预期节省：70-80% 费用（对于日常任务）</strong></p>
+<h3>核心原则：用最便宜能胜任的模型</h3>
+<p>生产环境的实践表明，<strong>70-80% 的查询可以用经济型模型处理</strong>，只有 20-30% 需要旗舰模型。</p>
+<h3>模型选择矩阵</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>任务类型</th><th>推荐模型</th><th>理由</th><th>相对成本</th></tr></thead><tbody><tr><td>简单重命名/格式化</td><td>Gemini Flash / 最快模型</td><td>机械任务不需要智能</td><td>💰</td></tr><tr><td>日常 bug 修复</td><td>Claude Sonnet 4.5 / <a href="https://zhida.zhihu.com/search?content_id=272296188&#x26;content_type=Article&#x26;match_order=1&#x26;q=Composer+2&#x26;zhida_source=entity">Composer 2</a></td><td>性价比最高</td><td>💰💰</td></tr><tr><td>单文件功能开发</td><td>Claude Sonnet 4.5</td><td>强能力，合理价格</td><td>💰💰</td></tr><tr><td>多文件复杂功能</td><td><a href="https://zhida.zhihu.com/search?content_id=272296188&#x26;content_type=Article&#x26;match_order=1&#x26;q=Claude+Opus+4.6&#x26;zhida_source=entity">Claude Opus 4.6</a></td><td>最强 Agent 能力</td><td>💰💰💰💰💰</td></tr><tr><td>大代码库探索</td><td>Gemini 3 Pro</td><td>最大上下文窗口</td><td>💰💰💰</td></tr><tr><td>简单代码解释</td><td>Gemini Flash</td><td>快速且便宜</td><td>💰</td></tr></tbody></table>
+<h3>快捷键</h3>
+<ul>
+<li><code>Cmd/Ctrl + /</code>：循环切换可用模型</li>
+<li><code>Cmd/Ctrl + .</code>：打开模型选择器</li>
+</ul>
+<h3>推荐的 User Rule</h3>
+<p>在 Cursor Settings 中添加这条 User Rule 作为提醒：</p>
+<pre><code class="language-text">Default to Claude Sonnet 4.5 for standard tasks.
+Switch to Claude Opus 4.6 for:
+- Multi-file features touching 5+ files
+- Complex debugging requiring deep codebase understanding
+- Architecture decisions and planning
+Switch to the fastest available model for:
+- Simple renames and formatting
+- Single-line fixes
+- Comment generation
+</code></pre>
+<h3>费用对比（同样 20-30$/月 )</h3>
+<p>Gemini Flash:   ████████████████████████████████████████ ~700 次请求</p>
+<p>Composer 2:     ████████████████████████████       ~400 次请求</p>
+<p>GPT-5:          ████████████████████████████████   ~500 次请求</p>
+<p>Claude Sonnet:  ██████████████                     ~225 次请求</p>
+<p>Claude Opus:    ██                                 ~34 次请求</p>
+<h3>7. Max Mode 的精准使用</h3>
+<h3>什么时候用 Max Mode</h3>
+<p>✅ <strong>值得用的场景</strong>：</p>
+<ul>
+<li>需要理解大量代码上下文的复杂 debug</li>
+<li>使用 Gemini 时需要 >200k 上下文窗口</li>
+<li>需要一次性读取大文件（>250 行）避免多次工具调用</li>
+</ul>
+<p>❌ <strong>不值得用的场景</strong>：</p>
+<ul>
+<li>日常编码和小修改</li>
+<li>简单的代码问答</li>
+<li>不涉及大文件的任务</li>
+</ul>
+<h3>Max Mode 的隐藏收益</h3>
+<p>虽然 Max Mode 单次更贵（+20%），但在某些场景下反而更省钱：</p>
+<pre><code class="language-text">普通模式读取大文件:  单文件上限 250 行 → 需要 3 次工具调用读取 750 行文件
+                    3 次调用 × 重复上下文 = 大量冗余 token
+
+Max Mode 读取大文件: 单文件上限 750 行 → 只需 1 次工具调用
+                    1 次调用 × (1 + 20% 溢价) = 可能反而更省
+</code></pre>
+<blockquote>
+<p>💡 <strong>关键洞察</strong>：Max Mode 的 20% 溢价在减少工具调用次数时可能反而节省总成本。</p>
+</blockquote>
+<hr>
+<h2>第三部分：Prompt 工程与对话管理</h2>
+<hr>
+<h3>8. 高效 Prompt 编写技巧</h3>
+<p><strong>预期节省：2-5 倍 token 减少</strong></p>
+<h3>黄金模板：[动作] + [目标] + [约束]</h3>
+<pre><code class="language-text">❌ 模糊的 prompt（Cursor 需要发送大量上下文来理解意图）:
+"让这个更好"
+"这里有问题，帮我看看"
+"优化一下这个函数，它处理用户数据的时候很慢，因为它多次遍历数组..."
+
+✅ 精确的 prompt（Cursor 知道确切范围，最小化上下文）:
+"给 fetchUser 函数添加 TypeScript 类型"
+"第 45 行的 user.email 添加 null 检查"
+"将循环转换为 Map 实现 O(1) 查找"
+"用 async/await 重构，保留错误处理"
+</code></pre>
+<h3>指定文件和行号</h3>
+<pre><code class="language-text">❌ 让 Agent 自己搜索（触发多次文件读取）:
+"修复认证模块的 bug"
+
+✅ 直接指向位置（避免搜索开销）:
+"修复 @src/middleware/auth.ts 第 87 行的 JWT 验证逻辑"
+</code></pre>
+<h3>减少不必要的描述</h3>
+<pre><code class="language-text">❌ 过度解释（浪费 token 在你的描述上）:
+"我正在尝试优化这个处理用户数据的函数，它运行很慢
+ 因为它多次遍历数组，我觉得我们应该用 map..."
+(~50 tokens)
+
+✅ 直接说需求（同样的结果，80% 更少的 token）:
+"convert to Map for O(1) lookup"
+(~8 tokens)
+</code></pre>
+<h3>利用代码选择减少上下文</h3>
+<pre><code class="language-text">❌ 不选择代码直接在 chat 中问（Cursor 读取整个 500 行文件）:
+→ 消耗 ~3,000 tokens 的文件上下文
+
+✅ 先选中目标代码块，再 Cmd+K:
+→ Cursor 只发送选中的代码 + ~50 行上下文
+→ 消耗 ~500 tokens
+</code></pre>
+<h3>9. 对话管理最佳实践</h3>
+<p><strong>预期节省：减少 10 倍不必要的 token 消耗</strong></p>
+<h3>核心规则：把对话当做临时的，而不是永久的</h3>
+<p>LLM 是无状态的，每条消息都会重新发送整个对话历史。</p>
+<h3>何时开启新对话</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>信号</th><th>行动</th></tr></thead><tbody><tr><td>完成了一个逻辑任务，要开始另一个</td><td>新对话</td></tr><tr><td>Agent 在重复自己或引用过时信息</td><td>新对话</td></tr><tr><td>切换到代码库的不同区域</td><td>新对话</td></tr><tr><td>上下文指示器超过 60%</td><td>新对话</td></tr><tr><td>对话超过 6-8 轮交互</td><td>考虑新对话</td></tr></tbody></table>
+<h3>前置上下文，而不是累积历史</h3>
+<pre><code class="language-text">❌ 渐进式构建上下文（浪费 3 倍 token）:
+消息 1: "看看我们的 auth 模块"
+消息 2: "现在也看看 user service"
+消息 3: "好，给这两个添加限流功能"
+→ 3 次往返，每次重发之前的全部内容
+
+✅ 一次性提供所有上下文:
+"给 API 添加限流功能，需要集成：
+- @src/middleware/auth.ts（认证中间件）
+- @src/services/user-service.ts（用户服务）
+遵循 auth.ts 中的中间件模式。"
+→ 1 次请求，包含所有必要信息
+</code></pre>
+<h3>对话长度与成本关系</h3>
+<pre><code class="language-text">消息数  │ 累积 Token 消耗
+────────┼──────────────────
+  1     │ ██ (~5K)
+  3     │ ██████ (~15K)
+  5     │ ████████████ (~30K)
+  10    │ ████████████████████████ (~60K)
+  20    │ ████████████████████████████████████████████████ (~120K)
+</code></pre>
+<h3>10. 先规划再实施的策略</h3>
+<h3>Plan Mode 的价值</h3>
+<p>在请求代码之前，先让 AI 给出方案或计划。这可以：</p>
+<ol>
+<li><strong>减少不必要的迭代</strong>：避免「生成 → 不满意 → 重新生成」的循环</li>
+<li><strong>明确范围</strong>：让 AI 在规划阶段就确定需要修改哪些文件</li>
+<li><strong>节省 Agent 探索成本</strong>：Plan Mode 是只读的，不会触发文件修改</li>
+</ol>
+<h3>实践流程</h3>
+<pre><code class="language-text">步骤 1 (Plan Mode - 低成本):
+"我需要给用户系统添加角色权限功能。
+ 请先给出实施方案：需要修改哪些文件，大致步骤是什么？"
+
+步骤 2 (审查方案 - 0 token):
+你阅读方案，确认方向正确。
+
+步骤 3 (Agent Mode - 精准执行):
+"按照以下方案实施：
+ 1. 在 @src/models/user.ts 添加 role 字段
+ 2. 创建 @src/middleware/rbac.ts 权限中间件
+ 3. 更新 @src/routes/admin.ts 添加权限检查"
+</code></pre>
+<h3>特别适用于 Background Agent</h3>
+<p>先在本地用 Plan Mode 规划，然后把具体的计划交给 Background Agent：</p>
+<ul>
+<li>模糊指令 → Agent 大量探索 → 高成本</li>
+<li>具体计划 → Agent 精准执行 → 低成本</li>
+</ul>
+<hr>
+<h2>第四部分：文件与上下文管理</h2>
+<hr>
+<h3>11. 最小可行上下文原则</h3>
+<h3>核心思想</h3>
+<p>不要附加每一个「可能相关」的文件。只附加 Agent <strong>确实需要</strong>的文件。</p>
+<h3>对比示例</h3>
+<pre><code class="language-text">❌ 过度上下文（浪费 token 在不相关文件上）:
+"添加删除端点 @src/routes/users.ts @src/routes/posts.ts
+ @src/routes/comments.ts @src/models/user.ts @src/models/post.ts
+ @src/middleware/auth.ts @src/middleware/rate-limit.ts @src/lib/db.ts"
+→ 8 个文件 × 3,000-5,000 tokens/文件 = 24,000-40,000 tokens 上下文
+
+✅ 最小可行上下文:
+"在 @src/routes/users.ts 中添加 DELETE /api/users/:id 端点。
+ 遵循该文件中已有的 PATCH 端点模式。"
+→ 1 个文件 × 3,000-5,000 tokens = 3,000-5,000 tokens 上下文
+</code></pre>
+<h3>使用 @folder 代替多个 @file</h3>
+<p>当需要概览目录结构时，使用 <code>@folder</code> 而不是逐个引用文件：</p>
+<ul>
+<li><code>@src/routes/</code> 给出结构概览，比引用每个文件便宜得多</li>
+<li>Agent 可以根据需要自行深入读取具体文件</li>
+</ul>
+<h3>信任 Agent 的探索能力</h3>
+<p>Agent 如果需要更多信息，它会自己去找。从最少上下文开始，让 Agent 按需补充。</p>
+<blockquote>
+<p>⚠️ <strong>注意</strong>：如果减少上下文后回答质量下降，说明你去掉了实际需要的上下文。逐步加回具体文件。</p>
+</blockquote>
+<h3>12. 大代码库的特殊策略</h3>
+<h3>关闭自动代码库搜索</h3>
+<p>实测数据：关闭自动代码库搜索（RAG）可以将 token 消耗从 73,300 降到 31,800（减少 <strong>56%</strong> ）。</p>
+<h3>Dynamic Context Discovery</h3>
+<p>Cursor 引入了动态上下文发现（Dynamic Context Discovery）：</p>
+<ul>
+<li>不是预加载所有信息，而是让 AI 在需要时才获取</li>
+<li>A/B 测试显示平均减少 <strong>46.9%</strong>  的 token 使用</li>
+<li>特别对 MCP 工具的效率提升明显</li>
+</ul>
+<h3>Monorepo 策略</h3>
+<ol>
+<li>创建强力 <code>.cursorignore</code>，排除非当前工作的包</li>
+<li>使用 <code>@folder</code> 而不是 <code>@codebase</code> 来缩小范围</li>
+<li>明确告诉 Agent 你在哪个包/模块中工作</li>
+<li>考虑用 <code>.cursorindexingignore</code> 排除大型依赖包</li>
+</ol>
+<hr>
+<h2>第五部分：监控与成本控制</h2>
+<hr>
+<h3>13. Token 使用监控工具</h3>
+<h3>内置工具</h3>
+<ol>
+<li><strong>Cursor Dashboard</strong></li>
+</ol>
+<ul>
+<li>路径：Cursor Settings → Usage</li>
+<li>功能：查看 token 使用量、消费趋势</li>
+<li>限制：不是实时的，通常有延迟</li>
+</ul>
+<ol>
+<li><strong>上下文指示器</strong></li>
+</ol>
+<ul>
+<li>位置：输入框旁边</li>
+<li>功能：显示当前上下文窗口使用百分比</li>
+<li>悬停可看到激活的规则列表</li>
+</ul>
+<ol>
+<li><strong>状态栏 Token 显示</strong></li>
+</ol>
+<ul>
+<li>位置：右下角</li>
+<li>功能：显示每次请求的 token 数</li>
+</ul>
+<h3>第三方工具</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>工具</th><th>类型</th><th>特点</th></tr></thead><tbody><tr><td>cursor-usage-tracker</td><td>开源 Dashboard</td><td>异常检测、Slack 告警、每开发者成本追踪</td></tr><tr><td>cursor-usage</td><td>MCP Server</td><td>通过 AI Agent 查询使用数据</td></tr><tr><td>CloudEagle.ai</td><td>企业级</td><td>跨工具（Cursor/Claude/Gemini）统一监控</td></tr></tbody></table>
+<h3>cursor-usage-tracker 的告警层级</h3>
+<ol>
+<li>开发者超出消费限额</li>
+<li>日消费突增</li>
+<li>周期消费偏离团队平均值</li>
+<li>不必要地使用昂贵模型（如 opus-max）</li>
+</ol>
+<h3>14. 设置消费限额</h3>
+<h3>在 Cursor 中设置</h3>
+<ol>
+<li>打开 Cursor Settings</li>
+<li>导航到 Billing → Spending Limits</li>
+<li>设置月度消费上限</li>
+<li>开启消费告警</li>
+</ol>
+<h3>推荐的限额策略</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>用途</th><th>建议限额</th><th>理由</th></tr></thead><tbody><tr><td>个人学习</td><td>20-30/月 | Pro 计划基础额度 |<br>| 个人开发 | 40-60/月</td><td>允许偶尔使用高级模型</td></tr><tr><td>团队开发</td><td>50-80/人/月 | 含 Agent 使用的合理范围 |<br>| 重度使用 | 100-200/月</td><td>频繁使用 Agent + 高级模型</td></tr></tbody></table>
+<h3>告警设置</h3>
+<p>建议在达到限额的 <strong>50%</strong>  和 <strong>80%</strong>  时设置告警，给自己调整使用习惯的时间。</p>
+<h3>15. Background Agent 成本管理</h3>
+<p>Background Agent 是最大的成本风险点，因为它：</p>
+<ul>
+<li><strong>只使用 MAX mode</strong>（+20% 溢价）</li>
+<li>可以长时间自主运行</li>
+<li>消耗速率可达 Pro 计划的 <strong>5-10 倍</strong></li>
+</ul>
+<h3>管理策略</h3>
+<ol>
+<li><strong>拆分大任务</strong><br>
+❌ 一个 $12 的复杂任务（效果可能不好） ✅ 三个 $4 的聚焦任务（效果更好，总成本相当）</li>
+<li><strong>提供具体的任务描述</strong><br>
+❌ "优化项目性能"（Agent 会大量探索文件） ✅ "优化 src/utils/parser.ts 中 parseData 函数的性能，    将数组遍历改为 Map 查找，参考 src/utils/cache.ts 的模式"</li>
+<li><strong>先本地 Plan，再 Background Agent 执行</strong></li>
+</ol>
+<ul>
+<li>在本地 Plan Mode 确定方案</li>
+<li>把具体步骤交给 Background Agent</li>
+<li>避免 Agent 在「理解需求」阶段浪费 token</li>
+</ul>
+<ol>
+<li><strong>设置消费限额</strong></li>
+</ol>
+<ul>
+<li>在 Cursor Settings 中配置月度上限</li>
+<li>用第三方工具监控异常消费</li>
+</ul>
+<hr>
+<h2>第六部分：综合实战</h2>
+<hr>
+<h3>16. 不同场景的最优策略组合</h3>
+<h3>场景 1：日常 Bug 修复</h3>
+<pre><code class="language-text">最优配置:
+├─ 模型: Claude Sonnet 4.5 或 Composer 2
+├─ 模式: Cmd+K (如果知道具体位置) 或 Ask Mode
+├─ 上下文: 只选中相关代码块
+├─ Prompt: "修复第 XX 行的 [具体问题]"
+└─ 预估消耗: 1,000-5,000 tokens
+</code></pre>
+<h3>场景 2：新功能开发（中等复杂度）</h3>
+<pre><code class="language-text">最优配置:
+├─ 步骤 1: Plan Mode + Claude Sonnet 4.5 → 确定方案
+├─ 步骤 2: Agent Mode + Claude Sonnet 4.5 → 实施
+├─ 上下文: @目标文件 + 1-2 个参考文件
+├─ Prompt: 一次性提供所有需求和上下文
+└─ 预估消耗: 15,000-40,000 tokens
+</code></pre>
+<h3>场景 3：大规模重构</h3>
+<pre><code class="language-text">最优配置:
+├─ 步骤 1: Ask Mode + Gemini 3 Pro → 探索代码库
+├─ 步骤 2: Plan Mode + Claude Opus 4.6 → 制定详细计划
+├─ 步骤 3: Agent Mode + Claude Sonnet 4.5 → 分批实施
+├─ 关键: 每批次新开对话，避免历史累积
+└─ 预估消耗: 100,000-300,000 tokens（分多次）
+</code></pre>
+<h3>场景 4：学习/理解代码库</h3>
+<pre><code class="language-text">最优配置:
+├─ 模型: Gemini Flash（最便宜）
+├─ 模式: Ask Mode
+├─ 上下文: @folder 获取结构概览
+├─ 策略: 问具体问题而不是"解释整个项目"
+└─ 预估消耗: 3,000-10,000 tokens/问题
+</code></pre>
+<h3>场景 5：代码审查</h3>
+<pre><code class="language-text">最优配置:
+├─ 模型: Claude Sonnet 4.5
+├─ 模式: Ask Mode
+├─ 上下文: @diff 或选中变更代码
+├─ Prompt: "审查这些变更，关注 [安全性/性能/代码风格]"
+└─ 预估消耗: 5,000-15,000 tokens
+</code></pre>
+<h3>17. 节省效果量化评估</h3>
+<h3>综合节省预估</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>优化措施</th><th>节省比例</th><th>实施难度</th><th>对质量的影响</th></tr></thead><tbody><tr><td>配置上下文窗口限制</td><td>40-50%</td><td>⭐ 简单</td><td>几乎无影响</td></tr><tr><td>优化 .cursorignore</td><td>20-30%</td><td>⭐ 简单</td><td>无影响</td></tr><tr><td>审计 Rules (alwaysApply→scoped)</td><td>10-20%</td><td>⭐⭐ 中等</td><td>无影响</td></tr><tr><td>选择合适的交互模式</td><td>50-75%</td><td>⭐ 简单</td><td>无影响</td></tr><tr><td>智能模型路由</td><td>70-80%费用</td><td>⭐ 简单</td><td>简单任务无影响</td></tr><tr><td>高效 Prompt 编写</td><td>2-5x</td><td>⭐⭐ 需要习惯</td><td>可能提高质量</td></tr><tr><td>对话管理（及时新开）</td><td>减少 10x 浪费</td><td>⭐ 简单</td><td>可能提高质量</td></tr><tr><td>关闭自动 RAG</td><td>~56%</td><td>⭐ 简单</td><td>需要手动提供上下文</td></tr><tr><td>最小可行上下文</td><td>60-80%</td><td>⭐⭐ 需要判断</td><td>需要经验调整</td></tr></tbody></table>
+<h3>综合效果</h3>
+<p>通过组合以上策略，保守估计可以实现 <strong>总体 60% 的 token 节省</strong>，激进实施可达 <strong>80%+</strong> 。</p>
+<pre><code class="language-text">优化前:  每日 ~200,000 tokens
+         ████████████████████████████████████████
+
+基础优化后 (设置+Rules):  ~120,000 tokens (-40%)
+         ████████████████████████
+
+进阶优化后 (+模式+模型+Prompt):  ~60,000 tokens (-70%)
+         ████████████
+
+极致优化后 (+对话管理+上下文精控):  ~40,000 tokens (-80%)
+         ████████
+</code></pre>
+<h3>18. 总结：Token 节省速查表</h3>
+<h3>🟢 今天就能做的（5 分钟）</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>行动</th><th>怎么做</th></tr></thead><tbody><tr><td>减小上下文窗口</td><td>Settings → cursor.contextLength: 4000</td></tr><tr><td>关闭不需要的上下文</td><td>Settings → 关闭 includeRecentEdits 和 includeOpenTabs</td></tr><tr><td>创建 .cursorignore</td><td>复制上面的模板到项目根目录</td></tr><tr><td>切换默认模型</td><td>Cmd+/ 切换到 Claude Sonnet 或 Gemini Flash</td></tr></tbody></table>
+<h3>🟡 本周改善的（30 分钟）</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>行动</th><th>怎么做</th></tr></thead><tbody><tr><td>审计 Rules</td><td>用 Ask Mode 检查 always-apply 规则的 token 开销</td></tr><tr><td>优化 Rules 类型</td><td>将非必要的 alwaysApply 改为 glob-scoped 或 agent-decided</td></tr><tr><td>建立 Prompt 习惯</td><td>使用 [动作]+[目标]+[约束] 模板</td></tr><tr><td>设置消费限额</td><td>Settings → Billing → Spending Limits</td></tr></tbody></table>
+<h3>🔵 持续实践的（养成习惯）</h3>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>行动</th><th>原则</th></tr></thead><tbody><tr><td>模式匹配</td><td>能 Tab 不 Cmd+K，能 Cmd+K 不 Chat，能 Ask 不 Agent</td></tr><tr><td>对话管理</td><td>6-8 轮后新开对话；一个任务一个对话</td></tr><tr><td>上下文控制</td><td>最小可行上下文；@folder 代替多个 @file</td></tr><tr><td>模型选择</td><td>简单任务用 Flash/Composer，复杂任务才用 Opus</td></tr><tr><td>先规划后执行</td><td>复杂任务先 Plan Mode，再 Agent Mode</td></tr></tbody></table>
+<h3>记住这个公式</h3>
+<pre><code class="language-text">总 Token 成本 = (系统开销 + 规则 + 文件上下文 + 对话历史 + Agent探索)
+                × 工具调用次数
+                × 模型单价
+                × Max Mode 溢价
+
+你可以优化的: ✅规则  ✅文件上下文  ✅对话历史  ✅模式选择  ✅模型选择  ✅Prompt精度
+你无法控制的: ❌系统Prompt  ❌工具调用机制  ❌内部处理开销
+</code></pre>
+<hr>
+<h3>一句话总结</h3>
+<blockquote>
+<p><strong>在 Cursor 中省 token 的核心是：选择正确的模式和模型、写精确的 prompt、及时新开对话、只提供必要的上下文、审计你的 Rules——做好这些，在不影响回答质量的前提下，可以轻松节省 60-80% 的 token 消耗。</strong></p>
+</blockquote>
+<hr></div></main>
+<script>(function(){var p=location.pathname.replace(/\/+$/,"")||"/";if(p!=="/tutorials/cursor%E7%9C%81tokens%E7%9A%84%E4%B8%80%E4%BA%9B%E6%96%B9%E6%B3%95-1789627079288"){var n=document.getElementById("seo-snapshot");if(n)n.remove();}})();</script>
+<div id="root"></div>
+  </body>
+</html>

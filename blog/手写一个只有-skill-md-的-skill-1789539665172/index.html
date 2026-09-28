@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>手写一个只有 SKILL.md 的 Skill - 易安小站</title>
+    <link rel="icon" type="image/png" href="https://miaoda-conversation-file.cdn.bcebos.com/user-9wu1vvr6kvsw/app-cpr1anu1ecjl/20260704/favicon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        var path = location.pathname;
+        if (path !== '/admin' && path.indexOf('/admin/') !== 0) return;
+        try {
+          sessionStorage.setItem(
+            'yian-admin-spa-redirect',
+            path + location.search + location.hash,
+          );
+        } catch (e) {}
+        location.replace('/admin/');
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BFQJvrIW.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BdtT2n68.css">
+  <!--seo-->
+<meta name="description" content="认识最小 Skill 的文件结构，亲手写出一个用途明确的 error-explainer，再用它解释一条真实报错。" />
+<meta name="keywords" content="课程笔记,博客,技术文章,易安小站" />
+<link rel="canonical" href="https://hub.yianso.cn/blog/手写一个只有-skill-md-的-skill-1789539665172" />
+<meta property="og:title" content="手写一个只有 SKILL.md 的 Skill - 易安小站" />
+<meta property="og:description" content="认识最小 Skill 的文件结构，亲手写出一个用途明确的 error-explainer，再用它解释一条真实报错。" />
+<meta property="og:url" content="https://hub.yianso.cn/blog/手写一个只有-skill-md-的-skill-1789539665172" />
+<script type="application/ld+json" data-seo="1">[{"@context":"https://schema.org","@type":"Article","url":"https://hub.yianso.cn/blog/手写一个只有-skill-md-的-skill-1789539665172","description":"认识最小 Skill 的文件结构，亲手写出一个用途明确的 error-explainer，再用它解释一条真实报错。","headline":"手写一个只有 SKILL.md 的 Skill - 易安小站","mainEntityOfPage":"https://hub.yianso.cn/blog/手写一个只有-skill-md-的-skill-1789539665172","author":{"@type":"Person","name":"admin"},"datePublished":"2026-09-16T06:21:05.298229+00:00","dateModified":"2026-09-16T08:58:48.336067+00:00","publisher":{"@type":"Organization","name":"易安小站"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://hub.yianso.cn/"},{"@type":"ListItem","position":2,"name":"博客","item":"https://hub.yianso.cn/blog"},{"@type":"ListItem","position":3,"name":"手写一个只有 SKILL.md 的 Skill","item":"https://hub.yianso.cn/blog/手写一个只有-skill-md-的-skill-1789539665172"}]}]</script>
+<!--/seo-->
+</head>
+  <body>
+    <main id="seo-snapshot"><h1>手写一个只有 SKILL.md 的 Skill</h1><p>认识最小 Skill 的文件结构，亲手写出一个用途明确的 error-explainer，再用它解释一条真实报错。</p><div><h2>第 2 节 手写一个只有 SKILL.md 的 Skill</h2>
+<h3>2.1 本节目标</h3>
+<p>认识最小 Skill 的文件结构，亲手写出一个用途明确的 error-explainer，再用它解释一条真实报错。</p>
+<p>上一节解决了"为什么"，这一节解决"怎么写"。</p>
+<h3>2.2 先说清楚业务场景</h3>
+<p>先来看三个实际应用场景：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>使用者</th><th>用途</th><th>价值</th></tr></thead><tbody><tr><td>编程初学者</td><td>看懂第一个关键错误，知道下一步该检查什么</td><td>不用靠猜测反复改代码</td></tr><tr><td>老师或团队导师</td><td>统一报错说明的格式</td><td>减少重复的初步解释工作</td></tr><tr><td>项目新成员</td><td>把本地运行失败整理成可转交的说明</td><td>让后续求助带着证据，而不是只说"跑不起来"</td></tr></tbody></table>
+<p>新人在本地运行开发、构建和测试命令时，常常会把整段终端输出发给老师或团队成员，附一句"这是什么意思？"。回答者每次都要重新做同样几件事：</p>
+<ol>
+<li>从大量输出中找到关键错误；</li>
+<li>区分堆栈跟踪里哪些指向项目文件、哪些指向依赖库；</li>
+<li>把英文报错换成新手能理解的说法；</li>
+<li>告诉对方下一步先检查什么。</li>
+</ol>
+<p>error-explainer 把这套重复流程固定下来。它的产出是一份可以继续排查或转交他人的<strong>报错说明</strong>：保留运行命令、退出码、错误原文、项目文件位置和未确认事项。</p>
+<h3>2.3 第一步：新建演示项目</h3>
+<p>打开终端，新建一个独立目录：</p>
+<pre><code class="language-bash">cd Documents
+mkdir error-explainer-demo
+cd error-explainer-demo
+git init
+</code></pre>
+<blockquote>
+<p><code>git init</code> 不是运行 JavaScript 的必需步骤。这里使用它，是为了把这个目录建成独立项目，后续创建的 Skill 和测试文件都能跟项目一起纳入版本管理。</p>
+</blockquote>
+<p>在项目根目录新建 <code>greeting.js</code>，写入以下内容：</p>
+<pre><code class="language-javascript">const user = { name: "Lin" };
+
+console.log(`Hello, ${userName}!`);
+</code></pre>
+<p>此时项目结构如下：</p>
+<pre><code>error-explainer-demo/
+└── greeting.js
+</code></pre>
+<p>用 Codex 打开 <code>error-explainer-demo</code> 目录。后续所有文件路径和命令均以该目录为起点。</p>
+<p>保持终端位于 <code>error-explainer-demo</code> 目录，运行：</p>
+<pre><code class="language-bash">node greeting.js
+</code></pre>
+<p>你会看到类似下面的输出：</p>
+<pre><code>ReferenceError: userName is not defined
+    at .../greeting.js:3:23
+</code></pre>
+<p>报错下面那一串以 <code>at</code> 开头的内容叫作<strong>堆栈跟踪</strong>。初学阶段不必全部看懂，先找第一条指向自己项目文件的记录即可——本例是 <code>greeting.js:3:23</code>，表示第 3 行、第 23 列。</p>
+<p>程序还会返回退出码 <code>1</code>，表示未能正常执行完毕。终端通常不会主动显示退出码，可以在命令结束后立即查看：</p>
+<pre><code class="language-bash"># macOS 或 Linux
+echo $?
+</code></pre>
+<pre><code class="language-powershell"># Windows PowerShell
+$LASTEXITCODE
+</code></pre>
+<p>至此，我们已经拿到四项可以核对的事实：</p>
+<ol>
+<li>错误类型是 <code>ReferenceError</code>；</li>
+<li>错误原文是 <code>userName is not defined</code>；</li>
+<li>出错位置是 <code>greeting.js:3:23</code>；</li>
+<li>退出码是 <code>1</code>。</li>
+</ol>
+<p>这些就是后面验证 Skill 的依据。</p>
+<h3>2.4 第二步：创建 Skill 目录</h3>
+<p>本节把 Skill 放在当前项目的 <code>.agents/skills/</code> 目录下，方便跟仓库一起维护：</p>
+<pre><code class="language-bash">mkdir -p .agents/skills/error-explainer
+</code></pre>
+<blockquote>
+<p>个人跨项目使用的 Skill，通常放在 <code>$CODEX_HOME/skills/</code>；没有设置 <code>CODEX_HOME</code> 时，默认路径是 <code>~/.codex/skills/</code>。本章先不展开，只使用项目目录。</p>
+</blockquote>
+<h3>2.5 第三步：写入 SKILL.md</h3>
+<p>一个 Skill 最少需要一个目录和一个 <code>SKILL.md</code> 文件：</p>
+<pre><code>error-explainer/
+└── SKILL.md
+</code></pre>
+<p>将以下内容写入 <code>.agents/skills/error-explainer/SKILL.md</code>：</p>
+<pre><code class="language-markdown">---
+name: error-explainer
+description: 用于开发入门、课程练习和团队新人培训，解释本地命令行报错和堆栈跟踪，把错误类型、出错位置、关键原文、通俗解释和下一步检查整理成可读、可转交的说明。用户表示看不懂终端报错，或要求解释某条本地命令为什么失败时使用；不要用于直接修改代码、安装依赖、访问生产环境或断言未经验证的根因。
+---
+
+# 新手报错说明
+
+## 用途
+
+用于开发入门、课程练习和团队新人培训。当用户在本地运行开发、构建或测试命令失败时，把终端输出整理成新手能看懂、也能转交给老师或团队成员的报错说明。
+
+成功标准是：读者能知道哪条命令失败、最关键的错误是什么、应该先看哪个项目文件，以及下一步检查什么。
+
+## 工作流程
+
+1. 读取用户描述、错误原文、相关文件和项目说明，确认解释范围。
+2. 如果用户提供了安全、明确的本地命令，运行一次并记录完整命令和退出码。
+3. 保留错误类型和关键原文，不要先改写成自己的猜测。
+4. 在堆栈跟踪中找到第一条指向当前项目文件的位置，记录文件和行号。
+5. 用日常语言解释错误信息，再列出一到三个可以继续检查的方向。
+6. 整理一句话说明、运行命令、退出码、错误原文、出错位置、通俗解释、下一步检查和未确认事项。
+
+不要修改业务代码、测试、依赖、锁文件或配置。不要访问生产环境，也不要把"可能原因"写成已经确认的根因。
+</code></pre>
+<p>这就是一个可以使用的最小 Skill——它只有一个文件，没有脚本，也没有模板，但已经说清了服务谁、在什么场景使用、产出什么，以及怎样算成功。</p>
+<h3>2.6 第四步：看懂两个部分</h3>
+<p><code>SKILL.md</code> 分成两个部分：</p>
+<blockquote>
+<p><strong>frontmatter</strong> 是文件开头两个 <code>---</code> 之间的结构化配置，用来说明这是什么、什么时候使用。<br>
+<strong>Markdown 正文</strong> 说明被选中以后怎样工作。</p>
+</blockquote>
+<h4>frontmatter</h4>
+<p>文件开头两个 <code>---</code> 之间的内容叫作 frontmatter。它是一段写在 Markdown 开头的结构化配置，不要求先学会 YAML。</p>
+<p>最小版本只需要两个字段：</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<table><thead><tr><th>字段</th><th>作用</th><th>本例</th></tr></thead><tbody><tr><td><code>name</code></td><td>Skill 的名称</td><td><code>error-explainer</code></td></tr><tr><td><code>description</code></td><td>做什么、什么时候用、什么时候不用</td><td>解释本地报错，但不直接修改代码</td></tr></tbody></table>
+<p><code>description</code> 不能太宽泛。下面这种写法没有区分度：</p>
+<pre><code class="language-yaml">description: 帮助处理报错
+</code></pre>
+<p>Codex 无法判断"解释错误""直接修复代码"和"调查线上故障"是不是同一类任务。</p>
+<p><code>description</code> 要说明三个问题：</p>
+<ol>
+<li><strong>做什么</strong>：解释错误类型、位置和下一步检查。</li>
+<li><strong>什么时候用</strong>：用户看不懂本地命令行报错。</li>
+<li><strong>什么时候不用</strong>：直接改代码、访问生产环境或猜测根因。</li>
+</ol>
+<h4>Markdown 正文</h4>
+<p>frontmatter 解决"什么时候用"，正文解决"用了以后怎么做"。</p>
+<p>正文应该直接写动作：</p>
+<ol>
+<li>保留原文。</li>
+<li>记录命令和退出码。</li>
+<li>找到项目文件和行号。</li>
+<li>解释错误类型。</li>
+<li>给出下一步检查。</li>
+</ol>
+<p>正文一定要写清<strong>动作边界</strong>。</p>
+<h3>2.7 第五步：显式调用 Skill</h3>
+<p>新建或安装 Skill 后，Codex 可能需要重新加载。最稳妥的做法是重启 Codex，再打开一个新会话。</p>
+<p><code>$</code> 是调用 Skill 的符号。第一次测试时，直接用 <code>$</code> + Skill 名称，这样可以<strong>显式调用 Skill</strong>，不受自动匹配影响：</p>
+<pre><code class="language-text">$error-explainer 运行并解释 greeting.js 的报错。
+</code></pre>
+<p>这个提示词可以写得很简单，因为规则和流程在 <code>$error-explainer</code> 中已经约定好了。</p>
+<p>查看返回结果，应该包含以下信息：</p>
+<pre><code>运行命令：node greeting.js
+退出码：1
+错误类型：ReferenceError
+错误原文：userName is not defined
+出错位置：greeting.js:3:23
+通俗解释：程序在第 3 行使用了一个当前找不到定义的名称 userName。
+下一步检查：比较第 3 行使用的名称和前面已经声明的名称是否一致。
+</code></pre>
+<p>注意最后一项是"检查"，不是"自动修复"。只有检查之后，才能确认具体原因。</p>
+<p>如果 Codex 没有识别这个 Skill，依次检查：</p>
+<ol>
+<li>文件路径是否为 <code>.agents/skills/error-explainer/SKILL.md</code>；</li>
+<li>文件名是否严格写成 <code>SKILL.md</code>；</li>
+<li>frontmatter 是否包含 <code>name</code> 和 <code>description</code>；</li>
+<li>是否已经重启 Codex 并打开新会话。</li>
+</ol>
+<h3>2.8 第六步：观察自动匹配</h3>
+<p>显式调用成功后，去掉 Skill 名称再试一次：</p>
+<pre><code class="language-text">我看不懂 greeting.js 的终端报错。解释错误类型、文件位置和下一步检查，不要改代码。
+</code></pre>
+<p>如果 Codex 根据 <code>description</code> 自动选择了 <code>error-explainer</code>，说明触发描述基本有效。但自动匹配并非每次都能成功，Skill 较多时尤其需要注意。</p>
+<h3>2.9 小结</h3>
+<p>我们手动创建了一个最小可用的 Skill——只需要一个目录和一个 <code>SKILL.md</code> 文件，就完成了从场景定义、文件编写到显式调用和自动匹配验证的完整流程。下一节将使用 <code>skill-creator</code> 来完善这个 Skill。</p></div></main>
+<script>(function(){var p=location.pathname.replace(/\/+$/,"")||"/";if(p!=="/blog/%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E5%8F%AA%E6%9C%89-skill-md-%E7%9A%84-skill-1789539665172"){var n=document.getElementById("seo-snapshot");if(n)n.remove();}})();</script>
+<div id="root"></div>
+  </body>
+</html>

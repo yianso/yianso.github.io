@@ -1,0 +1,19 @@
+# 易安小站
+
+> 技术教程与软件推荐社区
+
+## 页面
+- [首页](https://hub.yianso.cn/)
+- [博客](https://hub.yianso.cn/blog)
+- [课程库](https://hub.yianso.cn/tutorials)
+- [软件库](https://hub.yianso.cn/software)
+- [电子书](https://hub.yianso.cn/books)
+- [关于我](https://hub.yianso.cn/about)
+- [导航库](https://hub.yianso.cn/nav)
+- [发现](https://hub.yianso.cn/discover)
+- [每日AI快讯](https://hub.yianso.cn/daily-ai-news)
+- [七牛云 CDN + acme.sh 自动续签 SSL 证书配置指南](https://hub.yianso.cn/blog/七牛云-cdn-acme-sh-自动续签-ssl-证书配置指南-1789034965563)
+- [手写一个只有 SKILL.md 的 Skill](https://hub.yianso.cn/blog/手写一个只有-skill-md-的-skill-1789539665172)
+- [2026吃透LangChain4j全套教程](https://hub.yianso.cn/tutorials/2026吃透langchain4j全套教程-1789616666387)
+- [cursor省tokens的一些方法](https://hub.yianso.cn/tutorials/cursor省tokens的一些方法-1789627079288)
+- [Codex 新手入门教程](https://hub.yianso.cn/books/frontend-guide)
