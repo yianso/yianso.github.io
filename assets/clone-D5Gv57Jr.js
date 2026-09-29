@@ -1,0 +1,1 @@
+import{m as e}from"./graphlib-DtA3x_BR.js";var t=4;function n(n){return e(n,t)}var r=n;export{r as t};
