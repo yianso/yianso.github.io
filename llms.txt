@@ -9,6 +9,7 @@
 - [软件库](https://hub.yianso.cn/software)
 - [电子书](https://hub.yianso.cn/books)
 - [关于我](https://hub.yianso.cn/about)
+- [赞赏支持](https://hub.yianso.cn/support)
 - [站点库](https://hub.yianso.cn/nav)
 - [发现](https://hub.yianso.cn/discover)
 - [更新日志](https://hub.yianso.cn/changelog)
