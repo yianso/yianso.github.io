@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <title>留言白板 - 易安小站</title>
+    <link rel="icon" type="image/png" href="https://enfeknzbzhpykpzwshvq.supabase.co/storage/v1/object/public/avatars/1790650065530_zuvxu4.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        var path = location.pathname;
+        if (path !== '/admin' && path.indexOf('/admin/') !== 0) return;
+        try {
+          sessionStorage.setItem(
+            'yian-admin-spa-redirect',
+            path + location.search + location.hash,
+          );
+        } catch (e) {}
+        location.replace('/admin/');
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-BdIWYswb.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-BJ2M-AN6.css">
+  <!--seo-->
+<meta name="description" content="留下想法与问候；默认仅自己可见，精选后才会公开" />
+<meta name="keywords" content="留言,留言白板,易安小站" />
+<link rel="canonical" href="https://hub.yianso.cn/guestbook" />
+<meta property="og:title" content="留言白板 - 易安小站" />
+<meta property="og:description" content="留下想法与问候；默认仅自己可见，精选后才会公开" />
+<meta property="og:url" content="https://hub.yianso.cn/guestbook" />
+<script type="application/ld+json" data-seo="1">{"@context":"https://schema.org","@type":"WebPage","url":"https://hub.yianso.cn/guestbook","description":"留下想法与问候；默认仅自己可见，精选后才会公开","name":"留言白板 - 易安小站"}</script>
+<!--/seo-->
+</head>
+  <body>
+    <main id="seo-snapshot"><h1>留言白板</h1><p>留下想法与问候；默认仅自己可见，精选后才会公开</p></main>
+<script>(function(){var p=location.pathname.replace(/\/+$/,"")||"/";if(p!=="/guestbook"){var n=document.getElementById("seo-snapshot");if(n)n.remove();}})();</script>
+<div id="root"></div>
+  </body>
+</html>
