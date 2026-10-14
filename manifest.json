@@ -1,0 +1,88 @@
+{
+  "id": "/",
+  "name": "易安小站",
+  "short_name": "易安小站",
+  "description": "易安是面向中文技术爱好者的教程分享与软件推荐平台。我们围绕实战教程、工具评测和资源导航三大核心板块，构建一个激发创作灵感、沉淀优质内容、陪伴用户成长的技术交流空间。在这里，你可以获取经过验证的实操指南，发现提升效率的优质工具，与同好交流心得、共享资源。易安社区致力于让技术学习更简单，让工具选择更可靠，成为每一位技术爱好者成长路上的得力伙伴。",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1E40AF",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "博客",
+      "short_name": "博客",
+      "url": "/blog"
+    },
+    {
+      "name": "课程库",
+      "short_name": "课程库",
+      "url": "/tutorials"
+    },
+    {
+      "name": "软件库",
+      "short_name": "软件库",
+      "url": "/software"
+    },
+    {
+      "name": "电子书",
+      "short_name": "电子书",
+      "url": "/books"
+    },
+    {
+      "name": "关于我",
+      "short_name": "关于我",
+      "url": "/about"
+    },
+    {
+      "name": "赞赏支持",
+      "short_name": "赞赏支持",
+      "url": "/support"
+    },
+    {
+      "name": "站点库",
+      "short_name": "站点库",
+      "url": "/nav"
+    },
+    {
+      "name": "发现",
+      "short_name": "发现",
+      "url": "/discover"
+    },
+    {
+      "name": "更新日志",
+      "short_name": "更新日志",
+      "url": "/changelog"
+    },
+    {
+      "name": "每日快讯",
+      "short_name": "每日快讯",
+      "url": "/daily-ai-news"
+    },
+    {
+      "name": "友情链接",
+      "short_name": "友情链接",
+      "url": "/friend-links"
+    },
+    {
+      "name": "留言白板",
+      "short_name": "留言白板",
+      "url": "/guestbook"
+    }
+  ]
+}
