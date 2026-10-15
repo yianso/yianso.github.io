@@ -3,48 +3,37 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>易安小站</title>
+    <title>易安小站·分享更好的技术</title>
     <meta name="theme-color" content="#1E40AF" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.png" sizes="48x48" type="image/png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" sizes="32x32" href="/favicon-32x32.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.json" />
     <link rel="alternate" type="application/rss+xml" title="易安小站 · RSS" href="/rss.xml" />
-    <script>
-      (function () {
-        var path = location.pathname;
-        if (path !== '/admin' && path.indexOf('/admin/') !== 0) return;
-        try {
-          sessionStorage.setItem(
-            'yian-admin-spa-redirect',
-            path + location.search + location.hash,
-          );
-        } catch (e) {}
-        location.replace('/admin/');
-      })();
-    </script>
-    <script type="module" crossorigin src="/assets/index-BNx5u6en.js"></script>
+    <script src="/boot.js"></script>
+    <script type="module" crossorigin src="/assets/index-DwqbpP8X.js"></script>
     <link rel="stylesheet" crossorigin href="/assets/index-CvZoTLYB.css">
   <!--seo-->
-<meta name="description" content="易安是面向中文技术爱好者的教程分享与软件推荐平台。我们围绕实战教程、工具评测和资源导航三大核心板块，构建一个激发创作灵感、沉淀优质内容、陪伴用户成长的技术交流空间。在这里，你可以获取经过验证的实操指南，发现提升效率的优质工具，与同好交流心得、共享资源。易安社区致力于让技术学习更简单，让工具选择更可靠，成为每一位技术爱好" />
-<meta name="keywords" content="易安小站,技术课程,博客,软件" />
+<meta name="description" content="专注于为中文技术爱好者提供优质实战教程、实用工具评测及精选资源导航。我们分享经过验证的操作指南，推荐提升效率的开发工具，帮助你快速找到靠谱的技术解决方案，让学习更简单、选择更高效。" />
+<meta name="keywords" content="易安小站,技术课程,博客,软件,易安,技术教程,软件推荐,实战教程,工具评测,资源导航,中文技术社区,技术交流社区,编程学习资源,效率工具推荐,开源项目分享,技术成长平台,开发者社区,软件测评,技术干货,数字生产力,易安社区官网" />
 <link rel="canonical" href="https://hub.yianso.cn/" />
-<meta property="og:title" content="易安小站" />
-<meta property="og:description" content="易安是面向中文技术爱好者的教程分享与软件推荐平台。我们围绕实战教程、工具评测和资源导航三大核心板块，构建一个激发创作灵感、沉淀优质内容、陪伴用户成长的技术交流空间。在这里，你可以获取经过验证的实操指南，发现提升效率的优质工具，与同好交流心得、共享资源。易安社区致力于让技术学习更简单，让工具选择更可靠，成为每一位技术爱好" />
+<meta property="og:title" content="易安小站·分享更好的技术" />
+<meta property="og:description" content="专注于为中文技术爱好者提供优质实战教程、实用工具评测及精选资源导航。我们分享经过验证的操作指南，推荐提升效率的开发工具，帮助你快速找到靠谱的技术解决方案，让学习更简单、选择更高效。" />
 <meta property="og:url" content="https://hub.yianso.cn/" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="易安小站" />
 <meta property="og:locale" content="zh_CN" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="易安小站" />
-<meta name="twitter:description" content="易安是面向中文技术爱好者的教程分享与软件推荐平台。我们围绕实战教程、工具评测和资源导航三大核心板块，构建一个激发创作灵感、沉淀优质内容、陪伴用户成长的技术交流空间。在这里，你可以获取经过验证的实操指南，发现提升效率的优质工具，与同好交流心得、共享资源。易安社区致力于让技术学习更简单，让工具选择更可靠，成为每一位技术爱好" />
-<script type="application/ld+json" data-seo="1">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://hub.yianso.cn/#website","url":"https://hub.yianso.cn/","name":"易安小站","description":"易安是面向中文技术爱好者的教程分享与软件推荐平台。我们围绕实战教程、工具评测和资源导航三大核心板块，构建一个激发创作灵感、沉淀优质内容、陪伴用户成长的技术交流空间。在这里，你可以获取经过验证的实操指南，发现提升效率的优质工具，与同好交流心得、共享资源。易安社区致力于让技术学习更简单，让工具选择更可靠，成为每一位技术爱好","inLanguage":"zh-CN","publisher":{"@id":"https://hub.yianso.cn/#organization"}},{"@type":"Organization","@id":"https://hub.yianso.cn/#organization","name":"易安小站","url":"https://hub.yianso.cn/","logo":"https://hub.yianso.cn/apple-touch-icon.png","sameAs":["https://github.com/xiaoanso","https://enfeknzbzhpykpzwshvq.supabase.co/storage/v1/object/public/avatars/1790654220966_lc375l.jpg","https://enfeknzbzhpykpzwshvq.supabase.co/storage/v1/object/public/avatars/1790654222134_snqo15.jpg","https://space.bilibili.com/481481627","https://enfeknzbzhpykpzwshvq.supabase.co/storage/v1/object/public/avatars/1790653336047_qlzfgw.jpg"]}]}</script>
+<meta name="twitter:title" content="易安小站·分享更好的技术" />
+<meta name="twitter:description" content="专注于为中文技术爱好者提供优质实战教程、实用工具评测及精选资源导航。我们分享经过验证的操作指南，推荐提升效率的开发工具，帮助你快速找到靠谱的技术解决方案，让学习更简单、选择更高效。" />
+<script type="application/ld+json" data-seo="1">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://hub.yianso.cn/#website","url":"https://hub.yianso.cn/","name":"易安小站","description":"专注于为中文技术爱好者提供优质实战教程、实用工具评测及精选资源导航。我们分享经过验证的操作指南，推荐提升效率的开发工具，帮助你快速找到靠谱的技术解决方案，让学习更简单、选择更高效。","inLanguage":"zh-CN","publisher":{"@id":"https://hub.yianso.cn/#organization"}},{"@type":"Organization","@id":"https://hub.yianso.cn/#organization","name":"易安小站","url":"https://hub.yianso.cn/","logo":"https://hub.yianso.cn/apple-touch-icon.png","sameAs":["https://github.com/xiaoanso","https://enfeknzbzhpykpzwshvq.supabase.co/storage/v1/object/public/avatars/1790654220966_lc375l.jpg","https://enfeknzbzhpykpzwshvq.supabase.co/storage/v1/object/public/avatars/1790654222134_snqo15.jpg","https://space.bilibili.com/481481627","https://enfeknzbzhpykpzwshvq.supabase.co/storage/v1/object/public/avatars/1790653336047_qlzfgw.jpg"]}]}</script>
 <!--/seo-->
 </head>
   <body>
-    <main id="seo-snapshot"><h1>易安小站</h1><p>易安是面向中文技术爱好者的教程分享与软件推荐平台。我们围绕实战教程、工具评测和资源导航三大核心板块，构建一个激发创作灵感、沉淀优质内容、陪伴用户成长的技术交流空间。在这里，你可以获取经过验证的实操指南，发现提升效率的优质工具，与同好交流心得、共享资源。易安社区致力于让技术学习更简单，让工具选择更可靠，成为每一位技术爱好者成长路上的得力伙伴。</p><ul><li><a href="https://hub.yianso.cn/blog">博客</a></li><li><a href="https://hub.yianso.cn/tutorials">课程库</a></li><li><a href="https://hub.yianso.cn/software">软件库</a></li><li><a href="https://hub.yianso.cn/books">电子书</a></li><li><a href="https://hub.yianso.cn/about">关于我</a></li><li><a href="https://hub.yianso.cn/support">赞赏支持</a></li><li><a href="https://hub.yianso.cn/nav">站点库</a></li><li><a href="https://hub.yianso.cn/discover">发现</a></li><li><a href="https://hub.yianso.cn/changelog">更新日志</a></li><li><a href="https://hub.yianso.cn/daily-ai-news">每日快讯</a></li><li><a href="https://hub.yianso.cn/friend-links">友情链接</a></li><li><a href="https://hub.yianso.cn/guestbook">留言白板</a></li><li><a href="https://hub.yianso.cn/blog/会用工具只是基本功-更早看到方向-1791542244033">会用工具只是基本功，更早看到方向</a></li><li><a href="https://hub.yianso.cn/blog/算力激励-培训课程-权威发布渠道-1791540553237">算力激励、培训课程、权威发布渠道</a></li><li><a href="https://hub.yianso.cn/blog/有一个越来越强烈的感受-1791542219594">有一个越来越强烈的感受：</a></li><li><a href="https://hub.yianso.cn/blog/ai-短剧出海-门槛已经低到离谱了-1791540514511">AI 短剧出海，门槛已经低到离谱了</a></li><li><a href="https://hub.yianso.cn/blog/七牛云-cdn-acme-sh-自动续签-ssl-证书配置指南-1789034965563">七牛云 CDN + acme.sh 自动续签 SSL 证书配置指南</a></li><li><a href="https://hub.yianso.cn/blog/手写一个只有-skill-md-的-skill-1789539665172">手写一个只有 SKILL.md 的 Skill</a></li><li><a href="https://hub.yianso.cn/blog/无需付费-4-种免费使用-cursor-ai-的方法-2026-最新指南-1790739766377">无需付费，4 种免费使用 Cursor AI 的方法（2026 最新指南）</a></li><li><a href="https://hub.yianso.cn/tutorials/cursor省tokens的一些方法-1789627079288">cursor省tokens的一些方法</a></li><li><a href="https://hub.yianso.cn/tutorials/2026吃透langchain4j全套教程-1789616666387">2026吃透LangChain4j全套教程</a></li><li><a href="https://hub.yianso.cn/software/sitesucker">SiteSucker Pro</a></li><li><a href="https://hub.yianso.cn/books/frontend-guide">Codex 新手入门教程</a></li></ul></main>
+    <main id="seo-snapshot"><h1>易安小站</h1><p>专注于为中文技术爱好者提供优质实战教程、实用工具评测及精选资源导航。我们分享经过验证的操作指南，推荐提升效率的开发工具，帮助你快速找到靠谱的技术解决方案，让学习更简单、选择更高效。</p><ul><li><a href="https://hub.yianso.cn/blog">博客</a></li><li><a href="https://hub.yianso.cn/tutorials">课程库</a></li><li><a href="https://hub.yianso.cn/software">软件库</a></li><li><a href="https://hub.yianso.cn/books">电子书</a></li><li><a href="https://hub.yianso.cn/about">关于我</a></li><li><a href="https://hub.yianso.cn/support">赞赏支持</a></li><li><a href="https://hub.yianso.cn/nav">站点库</a></li><li><a href="https://hub.yianso.cn/discover">发现</a></li><li><a href="https://hub.yianso.cn/changelog">更新日志</a></li><li><a href="https://hub.yianso.cn/daily-ai-news">每日快讯</a></li><li><a href="https://hub.yianso.cn/friend-links">友情链接</a></li><li><a href="https://hub.yianso.cn/guestbook">留言白板</a></li><li><a href="https://hub.yianso.cn/blog/会用工具只是基本功-更早看到方向-1791542244033">会用工具只是基本功，更早看到方向</a></li><li><a href="https://hub.yianso.cn/blog/算力激励-培训课程-权威发布渠道-1791540553237">算力激励、培训课程、权威发布渠道</a></li><li><a href="https://hub.yianso.cn/blog/有一个越来越强烈的感受-1791542219594">有一个越来越强烈的感受：</a></li><li><a href="https://hub.yianso.cn/blog/ai-短剧出海-门槛已经低到离谱了-1791540514511">AI 短剧出海，门槛已经低到离谱了</a></li><li><a href="https://hub.yianso.cn/blog/七牛云-cdn-acme-sh-自动续签-ssl-证书配置指南-1789034965563">七牛云 CDN + acme.sh 自动续签 SSL 证书配置指南</a></li><li><a href="https://hub.yianso.cn/blog/手写一个只有-skill-md-的-skill-1789539665172">手写一个只有 SKILL.md 的 Skill</a></li><li><a href="https://hub.yianso.cn/blog/无需付费-4-种免费使用-cursor-ai-的方法-2026-最新指南-1790739766377">无需付费，4 种免费使用 Cursor AI 的方法（2026 最新指南）</a></li><li><a href="https://hub.yianso.cn/tutorials/cursor省tokens的一些方法-1789627079288">cursor省tokens的一些方法</a></li><li><a href="https://hub.yianso.cn/tutorials/2026吃透langchain4j全套教程-1789616666387">2026吃透LangChain4j全套教程</a></li><li><a href="https://hub.yianso.cn/software/sitesucker">SiteSucker Pro</a></li><li><a href="https://hub.yianso.cn/books/frontend-guide">Codex 新手入门教程</a></li></ul></main>
 <script>(function(){var p=location.pathname.replace(/\/+$/,"")||"/";if(p!=="/"){var n=document.getElementById("seo-snapshot");if(n)n.remove();}})();</script>
 <div id="root"></div>
   </body>

@@ -1,0 +1,1 @@
+!function(){var p=location.pathname;if(p!='/admin'&&p.indexOf('/admin/')!=0)return;try{sessionStorage.setItem(['yian','admin','spa','redirect'].join('-'),p+location.search+location.hash)}catch(e){}location.replace('/admin/')}();
