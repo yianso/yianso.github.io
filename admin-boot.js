@@ -1,0 +1,1 @@
+!function(){var k=['yian','admin','spa','redirect'].join('-'),s='';try{s=sessionStorage.getItem(k)||'';sessionStorage.removeItem(k)}catch(e){}if(s.indexOf('/admin')!=0)return;var n=s=='/admin'?'/admin/':s;n!=location.pathname+location.search+location.hash&&history.replaceState(null,'',n)}();

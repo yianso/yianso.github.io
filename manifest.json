@@ -1,0 +1,100 @@
+{
+  "id": "/",
+  "name": "易安小站",
+  "short_name": "易安小站",
+  "description": "专注于为中文技术爱好者提供优质实战教程、实用工具评测及精选资源导航。我们分享经过验证的操作指南，推荐提升效率的开发工具，帮助你快速找到靠谱的技术解决方案，让学习更简单、选择更高效。",
+  "lang": "zh-CN",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#1E40AF",
+  "icons": [
+    {
+      "src": "/favicon.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "博客",
+      "short_name": "博客",
+      "url": "/blog"
+    },
+    {
+      "name": "课程库",
+      "short_name": "课程库",
+      "url": "/tutorials"
+    },
+    {
+      "name": "软件库",
+      "short_name": "软件库",
+      "url": "/software"
+    },
+    {
+      "name": "电子书",
+      "short_name": "电子书",
+      "url": "/books"
+    },
+    {
+      "name": "关于我",
+      "short_name": "关于我",
+      "url": "/about"
+    },
+    {
+      "name": "赞赏支持",
+      "short_name": "赞赏支持",
+      "url": "/support"
+    },
+    {
+      "name": "站点库",
+      "short_name": "站点库",
+      "url": "/nav"
+    },
+    {
+      "name": "发现",
+      "short_name": "发现",
+      "url": "/discover"
+    },
+    {
+      "name": "更新日志",
+      "short_name": "更新日志",
+      "url": "/changelogs"
+    },
+    {
+      "name": "每日快讯",
+      "short_name": "每日快讯",
+      "url": "/daily-ai-news"
+    },
+    {
+      "name": "友情链接",
+      "short_name": "友情链接",
+      "url": "/friend-links"
+    },
+    {
+      "name": "留言白板",
+      "short_name": "留言白板",
+      "url": "/guestbook"
+    }
+  ]
+}

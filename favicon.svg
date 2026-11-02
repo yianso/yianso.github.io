@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" role="img" aria-label="易 · 印章" style="width:100%;height:auto;display:block;">
+  <defs>
+    <!-- 边缘毛糙效果：双层湍流置换，模拟印泥边缘的不规则感 -->
+    <filter id="rough" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.03" numOctaves="4" seed="7" result="n1"/>
+      <feDisplacementMap in="SourceGraphic" in2="n1" scale="18" xChannelSelector="R" yChannelSelector="G" result="d1"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.12" numOctaves="3" seed="11" result="n2"/>
+      <feDisplacementMap in="d1" in2="n2" scale="6" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <!-- 印面斑点噪点 -->
+    <filter id="speckF" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.06" numOctaves="4" seed="8" result="t"/>
+      <feColorMatrix in="t" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  3 0 0 0 -1.9"/>
+    </filter>
+    <!-- 做旧遮罩：噪点镂空 + 外圈断口裂纹 -->
+    <mask id="distress" maskUnits="userSpaceOnUse" x="0" y="0" width="1000" height="1000">
+      <rect width="1000" height="1000" fill="#fff"/>
+      <rect width="1000" height="1000" fill="#000" filter="url(#speckF)"/>
+      <g filter="url(#rough)" stroke="#000" stroke-width="16" stroke-linecap="round">
+        <line x1="705" y1="145" x2="752" y2="64"/>
+        <line x1="896" y1="606" x2="985" y2="630"/>
+        <line x1="327" y1="871" x2="288" y2="955"/>
+        <line x1="115" y1="360" x2="28" y2="328"/>
+        <line x1="536" y1="92" x2="545" y2="0"/>
+        <line x1="760" y1="830" x2="830" y2="900"/>
+      </g>
+    </mask>
+  </defs>
+
+  <g filter="url(#rough)" mask="url(#distress)">
+    <!-- 外圈边轮 -->
+    <ellipse cx="500" cy="500" rx="452" ry="462" fill="none" stroke="#CE3B2A" stroke-width="54"/>
+    <!-- 印面红底 -->
+    <ellipse cx="500" cy="500" rx="382" ry="390" fill="#CE3B2A"/>
+    <!-- 白文「易」字笔画 -->
+    <g fill="none" stroke="#FFFFFF" stroke-linecap="round" stroke-linejoin="round">
+      <!-- 日部外框 -->
+      <rect x="350" y="230" width="290" height="195" rx="68" stroke-width="50"/>
+      <!-- 日部中横 -->
+      <line x1="378" y1="327" x2="612" y2="327" stroke-width="46"/>
+      <!-- 勿部第一撇 -->
+      <path d="M390,492 Q338,556 268,606" stroke-width="50"/>
+      <!-- 勿部横折钩 -->
+      <path d="M478,492 C615,486 690,566 690,672 C690,768 616,812 512,818" stroke-width="52"/>
+      <!-- 勿部内两撇 -->
+      <path d="M470,572 Q400,650 314,698" stroke-width="50"/>
+      <path d="M560,584 Q482,676 402,748" stroke-width="50"/>
+    </g>
+  </g>
+</svg>
