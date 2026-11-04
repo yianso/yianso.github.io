@@ -92,6 +92,11 @@
       "url": "/friend-links"
     },
     {
+      "name": "百期专栏",
+      "short_name": "百期专栏",
+      "url": "/columns"
+    },
+    {
       "name": "留言白板",
       "short_name": "留言白板",
       "url": "/guestbook"
